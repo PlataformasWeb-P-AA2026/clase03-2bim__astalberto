@@ -21,10 +21,15 @@ def index(request):
     # se lo almacena en una variable llamada
     # estudiantes
     estudiantes = Estudiante.objects.all()
+    paises = Pais.objects.all()
+
     # en la variable tipo diccionario llamada informacion_template
     # se agregará la información que estará disponible
     # en el template
-    informacion_template = {'estudiantes': estudiantes, 'numero_estudiantes': len(estudiantes)}
+    informacion_template = {'estudiantes': estudiantes,
+                            'paises': paises,
+                           'numero_estudiantes': len(estudiantes),
+                           'numero_paises': len(paises)}
     return render(request, 'index.html', informacion_template)
 
 
@@ -88,4 +93,61 @@ def eliminar_estudiante(request, id):
     """
     estudiante = Estudiante.objects.get(pk=id)
     estudiante.delete()
+    return redirect(index)
+
+def obtener_pais(request, id):
+    """
+        Listar los registros del modelo Pais,
+        obtenidos de la base de datos.
+    """
+    pais = Pais.objects.get(pk=id)
+    # en la variable tipo diccionario llamada informacion_template
+    # se agregará la información que estará disponible
+    # en el template
+    informacion_template = {'pais': pais}
+    return render(request, 'obtener_pais.html', informacion_template)
+
+
+def crear_pais(request):
+    """
+    """
+    print(request)
+    if request.method=='POST':
+        formulario = PaisForm(request.POST)
+        print(formulario.errors)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect(index)
+    else:
+        formulario = PaisForm()
+    diccionario = {'formulario': formulario}
+
+    return render(request, 'crearPais.html', diccionario)
+
+def editar_pais(request, id):
+    """
+    """
+    print("---------------")
+    print(request)
+    print("---------------")
+    pais = Pais.objects.get(pk=id)
+    # Deber: consultar
+    if request.method=='POST':
+        formulario = PaisForm(request.POST, instance=pais)
+        print(formulario.errors)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect(index)
+    else:
+        formulario = PaisForm(instance=pais)
+    diccionario = {'formulario': formulario}
+
+    return render(request, 'editarPais.html', diccionario)
+
+
+def eliminar_pais(request, id):
+    """
+    """
+    pais = Pais.objects.get(pk=id)
+    pais.delete()
     return redirect(index)
