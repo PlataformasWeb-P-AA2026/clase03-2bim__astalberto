@@ -28,8 +28,7 @@ def index(request):
     # en el template
     informacion_template = {'estudiantes': estudiantes,
                             'paises': paises,
-                           'numero_estudiantes': len(estudiantes),
-                           'numero_paises': len(paises)}
+                           'numero_estudiantes': len(estudiantes)}
     return render(request, 'index.html', informacion_template)
 
 
