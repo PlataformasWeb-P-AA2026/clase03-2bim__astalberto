@@ -14,3 +14,24 @@
   </ul>
 
   <hr>
+
+<table border="1" >
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Cantidad de teléfonos</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in estudiantes %}
+        <tr>
+            <td>{{ e.id }}</td>
+            <td>{{ e.nombre }}</td>
+            <td>telefonos({{ e.obtener_cantidad_telefonos }})</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr>
